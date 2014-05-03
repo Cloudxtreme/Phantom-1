@@ -74,6 +74,7 @@
 	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/jquery.pjax.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/application.js') }}"></script>
 	<!-- <script src="{{ url_for('static', filename='js/site.min.js') }}"></script> -->
 	<script>
 	var csrftoken = $('meta[name=csrf-token]').attr('content');
@@ -84,7 +85,7 @@
 			}
 		}
 	});
-	{% block script %}{% endblock %}
 	</script>
+	{% block script %}{% endblock %}
 </body>
 </html>
