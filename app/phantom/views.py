@@ -5,10 +5,10 @@ import time
 from app import db
 from app import lib
 from app import login_manager, login_required, logout_required, login_user, logout_user, current_user
-from flask import Blueprint, Response, request, render_template, flash, g, session, redirect, url_for, abort
+from flask import Blueprint, Response, request, render_template, flash, g, session, redirect, url_for, abort, jsonify
 
-from .models import User
-from .forms import LoginForm, RegisterForm
+from .models import User, Storage, Task, TaskResult
+from .forms import LoginForm, RegisterForm, AddStorageForm
 
 module = Blueprint('phantom', __name__)
 
@@ -23,7 +23,7 @@ def index():
 
     return render_template('index.html')
 
-@module.route('/user/register', methods=['POST'])
+@module.route('/users/register', methods=['POST'])
 @logout_required
 def register():
     if User.query.count() > 0:
@@ -40,7 +40,7 @@ def register():
 
     return render_template('index_first.html', form=form)
 
-@module.route('/user/login', methods=['POST'])
+@module.route('/users/login', methods=['POST'])
 @logout_required
 def login():
     form = LoginForm()
@@ -56,3 +56,32 @@ def login():
 def logout():
     logout_user()
     return redirect('/')
+
+@module.route('/storages', methods=['GET'])
+@module.route('/storages/<id>', methods=['GET'])
+@login_required
+def storages(id=None):
+    if id is None:
+        storages = Storage.query.all()
+        add_form = AddStorageForm()
+        return render_template('storage/list.html', storages=storages, add_form=add_form)
+
+@module.route('/storages/add', methods=['POST'])
+def add_storage():
+    add_form = AddStorageForm()
+    if add_form.validate():
+        storage = Storage(add_form.data['name'], add_form.data['path'])
+        print storage.name, storage.path
+        db.session.add(storage)
+        db.session.commit()
+        return jsonify(success=True)
+    else:
+        errors = []
+        for field, msg in add_form.errors.iteritems():
+            for m in msg:
+                errDict = {
+                    'field': field,
+                    'error': m,
+                }
+                errors.append(errDict)
+        return jsonify(success=False, errors=errors)
