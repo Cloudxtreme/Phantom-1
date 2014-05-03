@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+/*.container {
+	margin: 10px auto;
+}
+*/
+h1.index_of {
+	/*font-family: "proxima-nova";*/
+	font-weight: bold;
+	margin: 30px 0;
+}
+
+table.list tr th {
+	padding-bottom: 5px;
+	color: #cbcbcb;
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+table.list td a {
+	color: #898989;
+}
+
+table.list td a:hover {
+	color: #565656;
+	text-decoration: none;
+	border-bottom: 1px solid #565656;
+}
+
+table.list td {
+	color: #cccccc;
+}
+
+table.list td, table.list td a {
+	font-size: 18px;
+	line-height: 1.6em;
+}
+
+table.list th, table.list td {
+	padding-right: 20px;
+}

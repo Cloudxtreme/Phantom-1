@@ -1,0 +1,84 @@
+{% if not current_user.is_authenticated() %}
+{% set navigation_bar = [
+    (url_for('phantom.index'), 'index', 'Main'),
+] -%}
+{% else %}
+{% set navigation_bar = [
+    (url_for('fastbox.index'), 'index', 'Main'),
+    (url_for('disk.browse'), 'box', 'Box'),
+    (url_for('user.settings'), 'settings', 'Settings'),
+] -%}
+{% endif %}
+{% set active_page = active_page|default('index') -%}
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> 
+	<title>{% block title %}Phantom{% endblock %}</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/site.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/disk.css') }}">
+	<!--[if lt IE 9]>
+		<script src="{{ url_for('static', filename='js/html5shiv.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="navbar navbar-default navbar-static-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{{ url_for('phantom.index') }}">Phantom</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					{% for href, id, caption in navigation_bar %}
+					<li{% if id == active_page %} class="active"{% endif %}>
+						<a href="{{ href|e }}">{{ caption|e }}</a>
+					</li>
+					{% endfor %}
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated() %}
+					<li><a>Signed in as {{ current_user.name }}</a></li>
+					<li>
+						<a href="{{ url_for('phantom.logout') }}">Sign out</a>
+					</li>
+					{% else %}
+					<li>
+						<a href="{{ url_for('phantom.login') }}">Sign in</a>
+					</li>
+					<li>
+						<a href="{{ url_for('phantom.register') }}">Sign up</a>
+					</li>
+					{% endif %}
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+	<div class="container">
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		<ul class="flashes">
+			{% for message in messages %}
+			<li>{{ message }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% endwith %}
+
+		{% block body %}{% endblock %}
+	</div>
+	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery.pjax.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<!-- <script src="{{ url_for('static', filename='js/site.min.js') }}"></script> -->
+	<script>{% block script %}{% endblock %}</script>
+</body>
+</html>
