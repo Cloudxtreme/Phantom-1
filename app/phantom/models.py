@@ -60,7 +60,7 @@ class Storage(db.Model):
     @validates('path')
     def validates_path(self, key, path):
         assert os.access(path, os.W_OK)
-        return os
+        return path
 
     def __unicode__(self):
         return '%r' % (self.name)
