@@ -4,7 +4,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, AnonymousUserMixin, login_user, logout_user, login_required, current_user
 from flask.ext.script import Manager, Server
 from flask.ext.migrate import Migrate, MigrateCommand
-
+from celery import Celery
 from functools import wraps
 
 app = Flask(__name__)
@@ -29,6 +29,21 @@ manager.add_command('db', MigrateCommand)
 
 # for migrations
 from phantom.models import *
+
+# celery
+def make_celery(app):
+    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    TaskBase = celery.Task
+    class ContextTask(TaskBase):
+        abstract = True
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+    celery.Task = ContextTask
+    return celery
+
+celery = make_celery(app)
 
 # for flask-login
 @login_manager.user_loader
