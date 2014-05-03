@@ -4,11 +4,13 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, AnonymousUserMixin, login_user, logout_user, login_required, current_user
 from flask.ext.script import Manager, Server
 from flask.ext.migrate import Migrate, MigrateCommand
+from flask_wtf.csrf import CsrfProtect
 from celery import Celery
 from functools import wraps
 
 app = Flask(__name__)
 app.config.from_object('config')
+CsrfProtect(app)
 
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True

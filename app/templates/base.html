@@ -16,7 +16,8 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> 
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>{% block title %}Phantom{% endblock %}</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/site.min.css') }}">
@@ -74,6 +75,16 @@
 	<script src="{{ url_for('static', filename='js/jquery.pjax.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 	<!-- <script src="{{ url_for('static', filename='js/site.min.js') }}"></script> -->
-	<script>{% block script %}{% endblock %}</script>
+	<script>
+	var csrftoken = $('meta[name=csrf-token]').attr('content');
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken)
+			}
+		}
+	});
+	{% block script %}{% endblock %}
+	</script>
 </body>
 </html>
