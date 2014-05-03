@@ -6,9 +6,9 @@
 		var inputChild = self.find('input:not([type="hidden"])'),
 			btnChild = self.find('button');
 		var required = options.required,
-			onSuccess = options.onSuccess,
+			onSuccess = options.success,
 			errorType = options.errorType,
-			onError = options.onError;
+			onError = options.error;
 
 		self.submit(function() {
 			if(required) {
