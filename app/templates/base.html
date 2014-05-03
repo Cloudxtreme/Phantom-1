@@ -4,12 +4,16 @@
 ] -%}
 {% else %}
 {% set navigation_bar = [
-    (url_for('phantom.index'), 'index', 'Main'),
+    (url_for('phantom.index'), 'index', 'Dashboard'),
+    (url_for('phantom.storages'), 'storages', 'Storages'),
+    (url_for('phantom.index'), 'tasks', 'Tasks'),
+    (url_for('phantom.index'), 'results', 'Results'),
+    (url_for('phantom.index'), 'explore', 'Explore'),
 ] -%}
 {% endif %}
 {% set active_page = active_page|default('index') -%}
 <!doctype html>
-<html lang="ko">
+<html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> 
@@ -17,6 +21,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/site.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/disk.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/fix.css') }}">
 	<!--[if lt IE 9]>
 		<script src="{{ url_for('static', filename='js/html5shiv.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
@@ -44,7 +49,6 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					{% if current_user.is_authenticated() %}
-					<li><a>Logged in</a></li>
 					<li>
 						<a href="{{ url_for('phantom.logout') }}">Sign out</a>
 					</li>
