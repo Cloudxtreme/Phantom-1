@@ -38,7 +38,42 @@
 		</ul>
 		{% endif %}
 		{% endwith %}
-		
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Sign Up</h3>
+			</div>
+			<div class="panel-body">
+				<form method="POST" action="{{ url_for('.register') }}">
+					{{ form.csrf_token }}
+					{% for item in form %}
+					{% if item.errors %}
+					<div class="alert alert-danger">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						{{ item.label }}: {{ item.errors[0] }}
+					</div>
+					{% endif %}
+					{% endfor %}
+					<div class="row">
+						<div class="col-xs-12">
+							<label>{{ form.email.label }}</label>
+							{{ form.email(size=20, class="form-control", placeholder=form.email.label.text) }}
+						</div>
+						<div class="col-xs-12">
+							<label>{{ form.password.label }}</label>
+							{{ form.password(size=20, class="form-control", placeholder=form.password.label.text) }}
+						</div>
+						<div class="col-xs-12">
+							<label>{{ form.password_check.label }}</label>
+							{{ form.password_check(size=20, class="form-control", placeholder=form.password_check.label.text) }}
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-success">Start Phantom!</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/jquery.pjax.min.js') }}"></script>

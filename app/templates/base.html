@@ -4,9 +4,7 @@
 ] -%}
 {% else %}
 {% set navigation_bar = [
-    (url_for('fastbox.index'), 'index', 'Main'),
-    (url_for('disk.browse'), 'box', 'Box'),
-    (url_for('user.settings'), 'settings', 'Settings'),
+    (url_for('phantom.index'), 'index', 'Main'),
 ] -%}
 {% endif %}
 {% set active_page = active_page|default('index') -%}
@@ -46,16 +44,9 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					{% if current_user.is_authenticated() %}
-					<li><a>Signed in as {{ current_user.name }}</a></li>
+					<li><a>Logged in</a></li>
 					<li>
 						<a href="{{ url_for('phantom.logout') }}">Sign out</a>
-					</li>
-					{% else %}
-					<li>
-						<a href="{{ url_for('phantom.login') }}">Sign in</a>
-					</li>
-					<li>
-						<a href="{{ url_for('phantom.register') }}">Sign up</a>
 					</li>
 					{% endif %}
 				</ul>

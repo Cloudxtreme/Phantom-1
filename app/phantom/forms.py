@@ -28,3 +28,22 @@ class LoginForm(Form):
             return True
 
 
+class RegisterForm(Form):
+    email = TextField('Email', validators=[ v.Email(), v.DataRequired(), v.length(max=120) ])
+    password = PasswordField('Password', validators=[ v.DataRequired() ])
+    password_check = PasswordField('Confirm password', validators=[ v.DataRequired() ])
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        if len(self.password.data) < 6:
+            self.password.erros.append('Password is too short (Minimum password length is 6)')
+            return False
+
+        if self.password.data != self.password_check.data:
+            self.password_check.errors.append('Password check is not match')
+            return False
+
+        return True

@@ -39,6 +39,9 @@ class User(db.Model):
     def is_anonymous(self):
         return False
 
+    def get_id(self):
+        return self.id
+
     def __unicode__(self):
         return '%r' % self.email
 
