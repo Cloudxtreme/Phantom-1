@@ -55,3 +55,5 @@ zipcode.*
 workspace.xml
 
 /app.db
+
+/celerybeat-schedule
