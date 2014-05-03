@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% set active_page = "storages" %}
+{% block body %}
+<h3>Storages</h3>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th class="col-sm-4">Name</th>
+			<th class="col-sm-4">Path</th>
+			<th class="col-sm-2">Tasks</th>
+			<th class="col-sm-2">Explore</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for storage in storages %}
+		<tr>
+			<td>{{ storage.name }}</td>
+			<td>{{ storage.path }}</td>
+			<td>{{ storage.tasks.count() }}</td>
+			<td>Go</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<div class="text-right">
+	<button class="btn btn-primary btn-s" data-toggle="modal" data-target="#add-storage">Add new storage</button>
+</div>
+
+<form id="add-storage-form" method="post" action="{{ url_for('phantom.add_storage') }}">
+	{{ add_form.csrf_token }}
+	<div id="add-storage" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Add new storage</h4>
+				</div>
+				<div class="messages"></div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-4">
+							<label>{{ add_form.name.label }}</label>
+							{{ add_form.name(size=20, class="form-control", placeholder=add_form.name.label.text) }}
+						</div>
+						<div class="col-xs-8">
+							<label>{{ add_form.path.label }}</label>
+							{{ add_form.path(size=20, class="form-control", placeholder=add_form.path.label.text) }}
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-primary">Add</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+{% endblock %}
+{% block script %}
+<script>
+	$('#add-storage-form').ajaxSubmit({
+		required: [
+			'{{ add_form.name.name }}',
+			'{{ add_form.path.name }}',
+		],
+		errorType: 'function',
+		onError: function(errors) {
+			var messages = $(this).find('div.messages');
+			for(var i = 0; i < errors.length; i++) {
+				var err = errors[i];
+				messages.append('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> ' + err.field + ': ' + err.error + '</div>');
+			}
+		},
+		onSuccess: function() {
+			location.reload();
+		}
+	});
+</script>
+{% endblock %}
