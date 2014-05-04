@@ -58,7 +58,6 @@ def logout():
     logout_user()
     return redirect('/')
 
-@csrf.exempt
 @module.route('/storages', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @login_required
 def storages():
@@ -110,3 +109,8 @@ def storages():
             db.session.delete(storage)
             db.session.commit()
             return jsonify(success=True)
+
+@module.route('/tasks', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@login_required
+def tasks():
+    pass
