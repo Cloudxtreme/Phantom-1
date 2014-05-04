@@ -10,7 +10,7 @@ from functools import wraps
 
 app = Flask(__name__)
 app.config.from_object('config')
-CsrfProtect(app)
+csrf = CsrfProtect(app)
 
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
