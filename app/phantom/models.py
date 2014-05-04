@@ -30,6 +30,9 @@ class User(db.Model):
         assert EMAIL_REGEX.match(email)
         return email
 
+    def check_password(self, password):
+        return lib.pw_verify(self.password, password)
+
     def is_active(self):
         return True
 

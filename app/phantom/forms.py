@@ -22,7 +22,7 @@ class LoginForm(Form):
         if user is None:
             self.email.errors.append('User not exists')
             return False
-        elif not lib.pw_verify(user.password, self.password.data):
+        elif not user.check_password(self.password.data):
             self.password.errors.append('Password not match')
             return False
         else:
