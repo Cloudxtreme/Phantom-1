@@ -14,7 +14,7 @@
 	<tbody>
 		{% for storage in storages %}
 		<tr>
-			<td>{{ storage.name }}</td>
+			<td><a href="#" class="storage-name" data-pk="{{ storage.id }}">{{ storage.name }}</a></td>
 			<td>{{ storage.path }}</td>
 			<td>{{ storage.tasks.count() }}</td>
 			<td>Go</td>
@@ -59,6 +59,19 @@
 {% endblock %}
 {% block script %}
 <script>
+	$('a.storage-name').editable({
+		type: 'text',
+		url: '{{ url_for('phantom.storages') }}',
+		ajaxOptions: {
+			type: 'PUT',
+			dataType: 'json'
+		},
+		success: function(res, val) {
+			if(!res.success) {
+				return res.msg;
+			}
+		}
+	});
 	$('#add-storage-form').ajaxSubmit({
 		required: [
 			'{{ add_form.name.name }}',

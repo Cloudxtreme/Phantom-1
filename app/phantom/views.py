@@ -4,6 +4,7 @@ import time
 
 from app import db
 from app import lib
+from app import csrf
 from app import login_manager, login_required, logout_required, login_user, logout_user, current_user
 from flask import Blueprint, Response, request, render_template, flash, g, session, redirect, url_for, abort, jsonify
 
@@ -57,14 +58,25 @@ def logout():
     logout_user()
     return redirect('/')
 
-@module.route('/storages', methods=['GET'])
-@module.route('/storages/<id>', methods=['GET'])
+@csrf.exempt
+@module.route('/storages', methods=['GET', 'PUT', 'DELETE'])
 @login_required
-def storages(id=None):
-    if id is None:
+def storages():
+    if request.method == 'GET':
         storages = Storage.query.all()
         add_form = AddStorageForm()
         return render_template('storage/list.html', storages=storages, add_form=add_form)
+    elif request.method == 'PUT':
+        pk = request.form.get('pk')
+        value = request.form.get('value')
+        storage = Storage.query.get(pk)
+
+        if not value:
+            return jsonify(success=False, msg='Required')
+        if storage:
+            storage.name = value
+            db.session.commit()
+            return jsonify(success=True)
 
 @module.route('/storages/add', methods=['POST'])
 def add_storage():

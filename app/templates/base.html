@@ -20,6 +20,7 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>{% block title %}Phantom{% endblock %}</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.editable.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/site.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/disk.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/fix.css') }}">
@@ -74,6 +75,7 @@
 	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/jquery.pjax.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.editable.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/application.js') }}"></script>
 	<!-- <script src="{{ url_for('static', filename='js/site.min.js') }}"></script> -->
 	<script>
