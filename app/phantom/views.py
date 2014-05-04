@@ -91,7 +91,22 @@ def storages():
 
         if not value:
             return jsonify(success=False, msg='Required')
-        if storage:
+        if not storage:
+            return jsonify(success=False, msg='Storage not found')
+        else:
             storage.name = value
+            db.session.commit()
+            return jsonify(success=True)
+    elif request.method == 'DELETE':
+        pk = request.form.get('pk')
+        value = request.form.get('value')
+        storage = Storage.query.get(pk)
+
+        if not current_user.check_password(value):
+            return jsonify(success=False, msg='Wrong password')
+        if not storage:
+            return jsonify(success=False, msg='Storage not found')
+        else:
+            db.session.delete(storage)
             db.session.commit()
             return jsonify(success=True)
