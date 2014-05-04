@@ -26,7 +26,7 @@
 	<button class="btn btn-primary btn-s" data-toggle="modal" data-target="#add-storage">Add new storage</button>
 </div>
 
-<form id="add-storage-form" method="post" action="{{ url_for('phantom.add_storage') }}">
+<form id="add-storage-form" method="post" action="{{ url_for('phantom.storages') }}">
 	{{ add_form.csrf_token }}
 	<div id="add-storage" class="modal fade">
 		<div class="modal-dialog">

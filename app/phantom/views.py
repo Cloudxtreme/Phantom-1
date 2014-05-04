@@ -59,13 +59,31 @@ def logout():
     return redirect('/')
 
 @csrf.exempt
-@module.route('/storages', methods=['GET', 'PUT', 'DELETE'])
+@module.route('/storages', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @login_required
 def storages():
     if request.method == 'GET':
         storages = Storage.query.all()
         add_form = AddStorageForm()
         return render_template('storage/list.html', storages=storages, add_form=add_form)
+    elif request.method == 'POST':
+        add_form = AddStorageForm()
+        if add_form.validate():
+            storage = Storage(add_form.data['name'], add_form.data['path'])
+            print storage.name, storage.path
+            db.session.add(storage)
+            db.session.commit()
+            return jsonify(success=True)
+        else:
+            errors = []
+            for field, msg in add_form.errors.iteritems():
+                for m in msg:
+                    errDict = {
+                        'field': field,
+                        'error': m,
+                    }
+                    errors.append(errDict)
+            return jsonify(success=False, errors=errors)
     elif request.method == 'PUT':
         pk = request.form.get('pk')
         value = request.form.get('value')
@@ -77,23 +95,3 @@ def storages():
             storage.name = value
             db.session.commit()
             return jsonify(success=True)
-
-@module.route('/storages/add', methods=['POST'])
-def add_storage():
-    add_form = AddStorageForm()
-    if add_form.validate():
-        storage = Storage(add_form.data['name'], add_form.data['path'])
-        print storage.name, storage.path
-        db.session.add(storage)
-        db.session.commit()
-        return jsonify(success=True)
-    else:
-        errors = []
-        for field, msg in add_form.errors.iteritems():
-            for m in msg:
-                errDict = {
-                    'field': field,
-                    'error': m,
-                }
-                errors.append(errDict)
-        return jsonify(success=False, errors=errors)
