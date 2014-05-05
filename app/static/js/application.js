@@ -35,6 +35,7 @@
 				},
 				success: function(data) {
 					if(data.success) {
+						inputChild.val('');
 						if(data.alertMessage) {
 							alert(data.alertMessage);
 						}
@@ -59,7 +60,7 @@
 					alert(err);
 				},
 				complete: function() {
-					inputChild.val('').removeAttr('disabled');
+					inputChild.removeAttr('disabled');
 					btnChild.removeAttr('disabled');
 				}
 			});
