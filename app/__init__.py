@@ -20,7 +20,7 @@ migrate = Migrate(app, db)
 
 login_manager = LoginManager()
 login_manager.login_view = 'phantom.login'
-login_manager.login_message = u'로그인이 필요한 페이지입니다.'
+login_manager.login_message = 'Login required'
 login_manager.anonymous_user = AnonymousUserMixin
 login_manager.init_app(app)
 
