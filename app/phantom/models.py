@@ -81,9 +81,10 @@ class Task(db.Model):
     filename_rule = db.Column('task_filename_rule', db.String(32), nullable=True)
     results = db.relationship('TaskResult', backref=db.backref('task', cascade='all,delete'), lazy='dynamic')
 
-    def __init__(self, storage, name, backup_time, max_stores, filename_rule):
+    def __init__(self, storage, name, backup_path, backup_time, max_stores, filename_rule):
         self.storage_id = storage.id if storage is not None else None
         self.name = name
+        self.backup_path = backup_path
         self.backup_time = backup_time
         self.max_stores = max_stores
         self.filename_rule = filename_rule
@@ -95,8 +96,8 @@ class Task(db.Model):
 
     @validates('backup_time')
     def validates_backup_time(self, key, hour):
-        assert (hour.isdigit() and int(hour) >= 0 and int(hour) < 48)
-        return int(hour)
+        assert (type(hour) == int and hour >= 0 and hour < 48)
+        return hour
 
     @property
     def time_format(self):
