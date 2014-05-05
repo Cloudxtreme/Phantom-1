@@ -55,7 +55,6 @@ class Storage(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
     name = db.Column('storage_name', db.String(64), nullable=False)
     path = db.Column('storage_path', db.String(512), nullable=False)
-    tasks = db.relationship('Task', backref=db.backref('storage', cascade='all,delete'), lazy='dynamic')
 
     def __init__(self, name=name, path=path):
         self.name = name
@@ -73,13 +72,13 @@ class Storage(db.Model):
 class Task(db.Model):
     __tablename__ = 'phantom_tasks'
     id = db.Column('id', db.Integer, primary_key=True)
-    storage_id = db.Column('storage', db.Integer, db.ForeignKey('phantom_storages.id'))
+    storage = db.relationship(Storage, backref=db.backref('tasks', cascade='all,delete'))
+    storage_id = db.Column('storage', db.Integer, db.ForeignKey('phantom_storages.id', ondelete='CASCADE'))
     name = db.Column('task_name', db.String(64), nullable=False)
     backup_path = db.Column('backup_path', db.String(512), nullable=False)
     backup_time = db.Column('backup_time', db.Integer, nullable=False, index=True)
     max_stores = db.Column('task_max_stores', db.Integer, nullable=False, default=7)
     filename_rule = db.Column('task_filename_rule', db.String(32), nullable=True)
-    results = db.relationship('TaskResult', backref=db.backref('task', cascade='all,delete'), lazy='dynamic')
 
     def __init__(self, storage, name, backup_path, backup_time, max_stores, filename_rule):
         self.storage_id = storage.id if storage is not None else None
@@ -113,7 +112,8 @@ class Task(db.Model):
 class TaskResult(db.Model):
     __tablename__ = 'phantom_task_ressults'
     id = db.Column('id', db.Integer, primary_key=True)
-    task_id = db.Column('task', db.Integer, db.ForeignKey('phantom_tasks.id'))
+    task = db.relationship(Task, backref=db.backref('results', cascade='all,delete'))
+    task_id = db.Column('task', db.Integer, db.ForeignKey('phantom_tasks.id', ondelete='CASCADE'))
     result = db.Column('result', db.Boolean, default=False, index=True)
     executed_at = db.Column('result_executed_at', db.DateTime, nullable=False) # same as created_at
     completed_at = db.Column('result_completed_at', db.DateTime, nullable=True)
