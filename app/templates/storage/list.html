@@ -62,6 +62,7 @@
 {% block script %}
 <script>
 	var URL_STORAGES = '{{ url_for('phantom.storages') }}';
+	var FORM_ELEMENTS = [{% for element in add_form %}'{{ element.name }}',{% endfor %}];
 </script>
 <script src="{{ url_for('static', filename='js/ext/storages.js') }}"></script>
 {% endblock %}

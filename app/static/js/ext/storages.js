@@ -29,10 +29,7 @@ $('a.del-storage').editable({
 	}
 });
 $('#add-storage-form').ajaxSubmit({
-	required: [
-		'{{ add_form.name.name }}',
-		'{{ add_form.path.name }}',
-	],
+	required: FORM_ELEMENTS,
 	errorType: 'function',
 	error: function(errors) {
 		var messages = $(this).find('div.messages');
