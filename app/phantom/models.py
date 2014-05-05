@@ -75,26 +75,32 @@ class Task(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
     storage_id = db.Column('storage', db.Integer, db.ForeignKey('phantom_storages.id'))
     name = db.Column('task_name', db.String(64), nullable=False)
-    every_hour = db.Column('every_hour', db.Integer, nullable=False, index=True)
+    backup_path = db.Column('backup_path', db.String(512), nullable=False)
+    backup_time = db.Column('backup_time', db.Integer, nullable=False, index=True)
     max_stores = db.Column('task_max_stores', db.Integer, nullable=False, default=7)
     filename_rule = db.Column('task_filename_rule', db.String(32), nullable=True)
     results = db.relationship('TaskResult', backref=db.backref('task', cascade='all,delete'), lazy='dynamic')
 
-    def __init__(self, storage, name, every_hour, max_stores, filename_rule):
+    def __init__(self, storage, name, backup_time, max_stores, filename_rule):
         self.storage_id = storage.id if storage is not None else None
         self.name = name
-        self.every_hour = every_hour
+        self.backup_time = backup_time
         self.max_stores = max_stores
         self.filename_rule = filename_rule
 
-    @validates('every_hour')
-    def validates_every_hour(self, key, hour):
+    @validates('backup_path')
+    def validates_backup_path(self, key, path):
+        assert os.access(path, os.R_OK)
+        return path
+
+    @validates('backup_time')
+    def validates_backup_time(self, key, hour):
         assert (hour.isdigit() and int(hour) >= 0 and int(hour) < 48)
         return int(hour)
 
-    @proeprty
+    @property
     def time_format(self):
-        val = self.every_hour / 2.0
+        val = self.backup_time / 2.0
         whole = floor(val)
         frac = val - whole
         return '%.2d:%.2d' % (val, 30 if frac > 0 else 0)
