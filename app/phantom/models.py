@@ -7,6 +7,7 @@ from app import db
 from app import lib
 from sqlalchemy.orm import validates
 
+from math import floor
 from datetime import datetime
 
 EMAIL_REGEX = re.compile(r'[^@]+@[^@]+\.[^@]+')
@@ -88,8 +89,15 @@ class Task(db.Model):
 
     @validates('every_hour')
     def validates_every_hour(self, key, hour):
-        assert (hour.isdigit() and int(hour) >= 0 and int(hour) < 24)
+        assert (hour.isdigit() and int(hour) >= 0 and int(hour) < 48)
         return int(hour)
+
+    @proeprty
+    def time_format(self):
+        val = self.every_hour / 2.0
+        whole = floor(val)
+        frac = val - whole
+        return '%.2d:%.2d' % (val, 30 if frac > 0 else 0)
 
     def __unicode__(self):
         return '%r' % (self.name)
