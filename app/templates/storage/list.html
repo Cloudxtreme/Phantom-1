@@ -60,5 +60,8 @@
 </form>
 {% endblock %}
 {% block script %}
+<script>
+	var URL_STORAGES = '{{ url_for('phantom.storages') }}';
+</script>
 <script src="{{ url_for('static', filename='js/ext/storages.js') }}"></script>
 {% endblock %}

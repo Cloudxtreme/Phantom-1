@@ -1,6 +1,6 @@
 $('a.storage-name').editable({
 	type: 'text',
-	url: '{{ url_for('phantom.storages') }}',
+	url: URL_STORAGES,
 	ajaxOptions: {
 		type: 'PUT',
 		dataType: 'json'
@@ -13,7 +13,7 @@ $('a.storage-name').editable({
 });
 $('a.del-storage').editable({
 	type: 'password',
-	url: '{{ url_for('phantom.storages') }}',
+	url: URL_STORAGES,
 	value: '',
 	title: 'Enter your password',
 	ajaxOptions: {
