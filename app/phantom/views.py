@@ -7,9 +7,10 @@ from app import lib
 from app import csrf
 from app import login_manager, login_required, logout_required, login_user, logout_user, current_user
 from flask import Blueprint, Response, request, render_template, flash, g, session, redirect, url_for, abort, jsonify
+from flask.ext.paginate import Pagination
 
 from .models import User, Storage, Task, TaskResult
-from .forms import LoginForm, RegisterForm, AddStorageForm
+from .forms import LoginForm, RegisterForm, AddStorageForm, AddTaskForm
 
 module = Blueprint('phantom', __name__)
 
@@ -63,13 +64,16 @@ def logout():
 def storages():
     if request.method == 'GET':
         storages = Storage.query.all()
+        if request.is_xhr:
+            data = [{ 'value': stor.id, 'text': stor.name } for stor in storages]
+            return json.dumps(data)
+        storages = Storage.query.all()
         add_form = AddStorageForm()
         return render_template('storage/list.html', storages=storages, add_form=add_form)
     elif request.method == 'POST':
         add_form = AddStorageForm()
         if add_form.validate():
             storage = Storage(add_form.data['name'], add_form.data['path'])
-            print storage.name, storage.path
             db.session.add(storage)
             db.session.commit()
             return jsonify(success=True)
@@ -113,4 +117,71 @@ def storages():
 @module.route('/tasks', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @login_required
 def tasks():
-    pass
+    if request.method == 'GET':
+        tasks = Task.query.all()
+        add_form = AddTaskForm()
+
+        return render_template('task/list.html', tasks=tasks, add_form=add_form)
+    elif request.method == 'POST':
+        add_form = AddTaskForm()
+        if add_form.validate():
+            data = add_form.data
+            task = Task(data['storage'], data['name'], data['backup_path'],
+                data['backup_time'], data['max_stores'], data['filename_rule'])
+            db.session.add(task)
+            db.session.commit()
+            return jsonify(success=True)
+        else:
+            errors = []
+            for field, msg in add_form.errors.iteritems():
+                for m in msg:
+                    errDict = {
+                        'field': field,
+                        'error': m,
+                    }
+                    errors.append(errDict)
+            return jsonify(success=False, errors=errors)
+    elif request.method == 'PUT':
+        pk = request.form.get('pk')
+        name = request.form.get('name')
+        value = request.form.get('value')
+        task = Task.query.get(pk)
+
+        if not value:
+            return jsonify(success=False, msg='Required')
+        if not task:
+            return jsonify(success=False, msg='Task not found')
+        else:
+            if name == 'name':
+                task.name = value
+                db.session.commit()
+                return jsonify(success=True)
+            elif name == 'storage':
+                storage = Storage.query.get(value)
+                if storage:
+                    task.storage = storage
+                    db.session.commit()
+                    return jsonify(success=True)
+                else:
+                    return jsonify(success=False, msg='Storage not found')
+            elif name == 'time':
+                if not value.isdigit():
+                    return jsonify(success=False, msg='Value is not number')
+                else:
+                    task.backup_time = int(value)
+                    db.session.commit()
+                    return jsonify(sucecss=True)
+    elif request.method == 'DELETE':
+        pk = request.form.get('pk')
+        value = request.form.get('value')
+        task = Task.query.get(pk)
+
+        if not current_user.check_password(value):
+            return jsonify(success=False, msg='Wrong password')
+        if not task:
+            return jsonify(success=False, msg='Task not found')
+        else:
+            db.session.delete(task)
+            db.session.commit()
+            return jsonify(success=True)
+

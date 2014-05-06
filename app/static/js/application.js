@@ -68,4 +68,19 @@
 			return false;
 		});
 	};
+
+	Number.prototype.zeroPad = Number.prototype.zeroPad || function(base) {
+		var nr = this, len = (String(base).length - String(nr).length)+1;
+		return len > 0? new Array(len).join('0')+nr : nr;
+	};
+
+	String.prototype.format = function() {
+		var args = arguments;
+		return this.replace(/{(\d+)}/g, function(match, number) {
+			return typeof args[number] != 'undefined'
+			? args[number]
+			: match
+			;
+		});
+	};
 })(jQuery);
