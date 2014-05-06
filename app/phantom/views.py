@@ -118,7 +118,14 @@ def storages():
 @login_required
 def tasks():
     if request.method == 'GET':
-        tasks = Task.query.all()
+        storage_id = request.args.get('storage')
+        if storage_id:
+            storage = Storage.query.get(storage_id)
+
+        if storage_id and storage:
+            tasks = Task.query.filter_by(storage=storage)
+        else:
+            tasks = Task.query.all()
         add_form = AddTaskForm()
 
         return render_template('task/list.html', tasks=tasks, add_form=add_form)
