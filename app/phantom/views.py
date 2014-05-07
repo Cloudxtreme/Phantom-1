@@ -192,3 +192,7 @@ def tasks():
             db.session.commit()
             return jsonify(success=True)
 
+@module.route('/tasks/result', methods=['GET', 'DELETE'])
+@login_required
+def task_results():
+    pass
