@@ -78,7 +78,7 @@ class Task(db.Model):
     backup_path = db.Column('backup_path', db.String(512), nullable=False)
     backup_time = db.Column('backup_time', db.Integer, nullable=False, index=True)
     max_stores = db.Column('task_max_stores', db.Integer, nullable=False, default=7)
-    filename_rule = db.Column('task_filename_rule', db.String(32), nullable=True)
+    filename_rule = db.Column('task_filename_rule', db.String(32), nullable=False)
 
     def __init__(self, storage, name, backup_path, backup_time, max_stores, filename_rule):
         self.storage_id = storage.id if storage is not None else None
@@ -110,10 +110,11 @@ class Task(db.Model):
 
 
 class TaskResult(db.Model):
-    __tablename__ = 'phantom_task_ressults'
+    __tablename__ = 'phantom_task_results'
     id = db.Column('id', db.Integer, primary_key=True)
     task = db.relationship(Task, backref=db.backref('results', cascade='all,delete'))
     task_id = db.Column('task', db.Integer, db.ForeignKey('phantom_tasks.id', ondelete='CASCADE'))
+    filename = db.Column('filename', db.String(64), nullable=False)
     result = db.Column('result', db.Boolean, default=False, index=True)
     executed_at = db.Column('result_executed_at', db.DateTime, nullable=False) # same as created_at
     completed_at = db.Column('result_completed_at', db.DateTime, nullable=True)
