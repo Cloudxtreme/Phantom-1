@@ -195,4 +195,11 @@ def tasks():
 @module.route('/tasks/result', methods=['GET', 'DELETE'])
 @login_required
 def task_results():
-    pass
+    if request.method == 'GET':
+        results = None
+        task = None
+        task_id = request.args.get('task')
+        if task_id:
+            task = task.query.get(task_id)
+
+        return render_template('task/result.html', results=results)
