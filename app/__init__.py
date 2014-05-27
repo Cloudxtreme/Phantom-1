@@ -8,26 +8,37 @@ from flask_wtf.csrf import CsrfProtect
 from celery import Celery
 from functools import wraps
 
+# flask app
 app = Flask(__name__)
 app.config.from_object('config')
 csrf = CsrfProtect(app)
 
+# jinja environment
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
 
+# database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+# login manager
 login_manager = LoginManager()
 login_manager.login_view = 'phantom.login'
 login_manager.login_message = 'Login required'
 login_manager.anonymous_user = AnonymousUserMixin
 login_manager.init_app(app)
 
+# manager
 manager = Manager(app)
+@manager.command
+def beat():
+    import shlex
+    from subprocess import call
+    call(shlex.split('celery worker -A app.celery -B'))
 server = Server(host="0.0.0.0", port=5000, threaded=True)
 manager.add_command('runserver', server)
 manager.add_command('db', MigrateCommand)
+# manager.add_command('beat', start_celery_beat)
 
 # for migrations
 from phantom.models import *
