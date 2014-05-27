@@ -38,7 +38,6 @@ def beat():
 server = Server(host="0.0.0.0", port=5000, threaded=True)
 manager.add_command('runserver', server)
 manager.add_command('db', MigrateCommand)
-# manager.add_command('beat', start_celery_beat)
 
 # for migrations
 from phantom.models import *
