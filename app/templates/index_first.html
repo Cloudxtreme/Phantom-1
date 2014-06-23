@@ -1,84 +1,84 @@
 <!doctype html>
 <html lang="ko">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> 
-	<title>Welcome to Phantom!</title>
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/site.min.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/disk.css') }}">
-	<!--[if lt IE 9]>
-		<script src="{{ url_for('static', filename='js/html5shiv.js') }}"></script>
-		<script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
-	<![endif]-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"> 
+    <title>Welcome to Phantom!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/disk.css') }}">
+    <!--[if lt IE 9]>
+        <script src="{{ url_for('static', filename='js/html5shiv.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+    <![endif]-->
 </head>
 <body>
-	<div class="navbar navbar-default navbar-static-top" role="navigation">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="{{ url_for('phantom.index') }}">Phantom</a>
-			</div>
-			<div class="navbar-collapse collapse">
-			</div><!--/.nav-collapse -->
-		</div>
-	</div>
-	<div class="container">
-		{% with messages = get_flashed_messages() %}
-		{% if messages %}
-		<ul class="flashes">
-			{% for message in messages %}
-			<li>{{ message }}</li>
-			{% endfor %}
-		</ul>
-		{% endif %}
-		{% endwith %}
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('phantom.index') }}">Phantom</a>
+            </div>
+            <div class="navbar-collapse collapse">
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
 
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Sign Up</h3>
-			</div>
-			<div class="panel-body">
-				<form method="POST" action="{{ url_for('.register') }}">
-					{{ form.csrf_token }}
-					{% for item in form %}
-					{% if item.errors %}
-					<div class="alert alert-danger">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-						{{ item.label }}: {{ item.errors[0] }}
-					</div>
-					{% endif %}
-					{% endfor %}
-					<div class="row">
-						<div class="col-xs-12">
-							<label>{{ form.email.label }}</label>
-							{{ form.email(size=20, class="form-control", placeholder=form.email.label.text) }}
-						</div>
-						<div class="col-xs-12">
-							<label>{{ form.password.label }}</label>
-							{{ form.password(size=20, class="form-control", placeholder=form.password.label.text) }}
-						</div>
-						<div class="col-xs-12">
-							<label>{{ form.password_check.label }}</label>
-							{{ form.password_check(size=20, class="form-control", placeholder=form.password_check.label.text) }}
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">Start Phantom!</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/jquery.pjax.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-	<!-- <script src="{{ url_for('static', filename='js/site.min.js') }}"></script> -->
-	<script>{% block script %}{% endblock %}</script>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Sign Up</h3>
+            </div>
+            <div class="panel-body">
+                <form method="POST" action="{{ url_for('.register') }}">
+                    {{ form.csrf_token }}
+                    {% for item in form %}
+                    {% if item.errors %}
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        {{ item.label }}: {{ item.errors[0] }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>{{ form.email.label }}</label>
+                            {{ form.email(size=20, class="form-control", placeholder=form.email.label.text) }}
+                        </div>
+                        <div class="col-xs-12">
+                            <label>{{ form.password.label }}</label>
+                            {{ form.password(size=20, class="form-control", placeholder=form.password.label.text) }}
+                        </div>
+                        <div class="col-xs-12">
+                            <label>{{ form.password_check.label }}</label>
+                            {{ form.password_check(size=20, class="form-control", placeholder=form.password_check.label.text) }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Start Phantom!</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.pjax.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/site.min.js') }}"></script> -->
+    <script>{% block script %}{% endblock %}</script>
 </body>
 </html>

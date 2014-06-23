@@ -3,26 +3,26 @@
 {% block body %}
 <h3>Task Results</h3>
 <table class="table table-striped">
-	<thead>
-		<tr>
-			<th class="col-sm-2">Task</th>
-			<th class="col-sm-2">Date(Hour)</th>
-			<th class="col-sm-1">File</th>
-			<th class="col-sm-1">Start</th>
-			<th class="col-sm-3">End</th>
-			<th class="col-sm-1">Result</th>
-			<th class="col-sm-1">Delete</th>
-		</tr>
-	</thead>
-	<tbody>
-		
-	</tbody>
+    <thead>
+        <tr>
+            <th class="col-sm-2">Task</th>
+            <th class="col-sm-2">Date(Hour)</th>
+            <th class="col-sm-1">File</th>
+            <th class="col-sm-1">Start</th>
+            <th class="col-sm-3">End</th>
+            <th class="col-sm-1">Result</th>
+            <th class="col-sm-1">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
 </table>
 
 {% endblock %}
 {% block script %}
 <script>
-	var URL_TASKS = '{{ url_for('phantom.tasks') }}', URL_RESULTS = '{{ url_for('phantom.task_results') }}';
+    var URL_TASKS = '{{ url_for('phantom.tasks') }}', URL_RESULTS = '{{ url_for('phantom.task_results') }}';
 </script>
 <script src="{{ url_for('static', filename='js/ext/results.js') }}"></script>
 {% endblock %}

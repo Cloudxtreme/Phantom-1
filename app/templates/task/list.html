@@ -3,91 +3,91 @@
 {% block body %}
 <h3>Tasks</h3>
 <table class="table table-striped">
-	<thead>
-		<tr>
-			<th class="col-sm-2">Name</th>
-			<th class="col-sm-1">Storage</th>
-			<th class="col-sm-3">Backup Path</th>
-			<th class="col-sm-1">Time</th>
-			<th class="col-sm-1">Max Files</th>
-			<th class="col-sm-1">Results</th>
-			<th class="col-sm-1">Delete</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for task in tasks %}
-		<tr>
-			<td><a href="#" class="task-name" data-name="name" data-pk="{{ task.id }}">{{ task.name }}</a></td>
-			<td><a href="#" class="task-storage" data-name="storage" data-value="{{ task.storage.id }}" data-pk="{{ task.id }}">{{ task.storage.name }}</a></td>
-			<td>{{ task.backup_path }}</td>
-			<td><a href="#" class="task-time" data-name="backup_time" data-value="{{ task.backup_time }}" data-pk="{{ task.id }}">{{ task.time_format }}</a></td>
-			<td>{{ task.max_stores }}</td>
-			<td>{{ task.results|count }}</td>
-			<td><a href="#" class="del-task" data-pk="{{ task.id }}">Delete</a></td>
-		</tr>
-		{% endfor %}
-	</tbody>
+    <thead>
+        <tr>
+            <th class="col-sm-2">Name</th>
+            <th class="col-sm-1">Storage</th>
+            <th class="col-sm-3">Backup Path</th>
+            <th class="col-sm-1">Time</th>
+            <th class="col-sm-1">Max Files</th>
+            <th class="col-sm-1">Results</th>
+            <th class="col-sm-1">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td><a href="#" class="task-name" data-name="name" data-pk="{{ task.id }}">{{ task.name }}</a></td>
+            <td><a href="#" class="task-storage" data-name="storage" data-value="{{ task.storage.id }}" data-pk="{{ task.id }}">{{ task.storage.name }}</a></td>
+            <td>{{ task.backup_path }}</td>
+            <td><a href="#" class="task-time" data-name="backup_time" data-value="{{ task.backup_time }}" data-pk="{{ task.id }}">{{ task.time_format }}</a></td>
+            <td>{{ task.max_stores }}</td>
+            <td>{{ task.results|count }}</td>
+            <td><a href="#" class="del-task" data-pk="{{ task.id }}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 <div class="text-right">
-	<button class="btn btn-primary btn-s" data-toggle="modal" data-target="#add-task">Add new task</button>
+    <button class="btn btn-primary btn-s" data-toggle="modal" data-target="#add-task">Add new task</button>
 </div>
 
 <form id="add-task-form" method="post" action="{{ url_for('phantom.tasks') }}">
-	{{ add_form.csrf_token }}
-	<div id="add-task" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Add new task</h4>
-				</div>
-				<div class="messages"></div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-xs-4">
-							<label>{{ add_form.name.label }}</label>
-							{{ add_form.name(size=20, class="form-control", placeholder=add_form.name.label.text) }}
-						</div>
-						<div class="col-xs-8">
-							<label>{{ add_form.backup_path.label }}</label>
-							{{ add_form.backup_path(size=20, class="form-control", placeholder=add_form.backup_path.label.text) }}
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-4">
-							<label>{{ add_form.storage.label }}</label>
-							{{ add_form.storage(class="form-control", placeholder=add_form.storage.label.text) }}
-						</div>
-						<div class="col-xs-4">
-							<label>{{ add_form.backup_time.label }}</label>
-							{{ add_form.backup_time(class="form-control", placeholder=add_form.backup_time.label.text) }}
-						</div>
-						<div class="col-xs-4">
-							<label>{{ add_form.max_stores.label }}</label>
-							{{ add_form.max_stores(class="form-control", placeholder=add_form.max_stores.label.text) }}
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12">
-							<label>{{ add_form.filename_rule.label }}</label>
-							{{ add_form.filename_rule(class="form-control", placeholder=add_form.filename_rule.label.text) }}
-							<span class="desc">Available tags: {DATE}, {TIME}, {NAME}</span>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary">Add</button>
-				</div>
-			</div>
-		</div>
-	</div>
+    {{ add_form.csrf_token }}
+    <div id="add-task" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add new task</h4>
+                </div>
+                <div class="messages"></div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>{{ add_form.name.label }}</label>
+                            {{ add_form.name(size=20, class="form-control", placeholder=add_form.name.label.text) }}
+                        </div>
+                        <div class="col-xs-8">
+                            <label>{{ add_form.backup_path.label }}</label>
+                            {{ add_form.backup_path(size=20, class="form-control", placeholder=add_form.backup_path.label.text) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <label>{{ add_form.storage.label }}</label>
+                            {{ add_form.storage(class="form-control", placeholder=add_form.storage.label.text) }}
+                        </div>
+                        <div class="col-xs-4">
+                            <label>{{ add_form.backup_time.label }}</label>
+                            {{ add_form.backup_time(class="form-control", placeholder=add_form.backup_time.label.text) }}
+                        </div>
+                        <div class="col-xs-4">
+                            <label>{{ add_form.max_stores.label }}</label>
+                            {{ add_form.max_stores(class="form-control", placeholder=add_form.max_stores.label.text) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>{{ add_form.filename_rule.label }}</label>
+                            {{ add_form.filename_rule(class="form-control", placeholder=add_form.filename_rule.label.text) }}
+                            <span class="desc">Available tags: {DATE}, {TIME}, {NAME}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 {% endblock %}
 {% block script %}
 <script>
-	var URL_TASKS = '{{ url_for('phantom.tasks') }}', URL_STORAGES = '{{ url_for('phantom.storages') }}';
-	var FORM_ELEMENTS = [{% for element in add_form %}'{{ element.name }}',{% endfor %}];
+    var URL_TASKS = '{{ url_for('phantom.tasks') }}', URL_STORAGES = '{{ url_for('phantom.storages') }}';
+    var FORM_ELEMENTS = [{% for element in add_form %}'{{ element.name }}',{% endfor %}];
 </script>
 <script src="{{ url_for('static', filename='js/ext/tasks.js') }}"></script>
 {% endblock %}
