@@ -2,15 +2,15 @@
 import json
 import time
 
+from app import csrf
 from app import db
 from app import lib
-from app import csrf
 from app import login_manager, login_required, logout_required, login_user, logout_user, current_user
 from flask import Blueprint, Response, request, render_template, flash, g, session, redirect, url_for, abort, jsonify
 from flask.ext.paginate import Pagination
 
-from .models import User, Storage, Task, TaskResult
 from .forms import LoginForm, RegisterForm, AddStorageForm, AddTaskForm
+from .models import User, Storage, Task, TaskResult
 
 module = Blueprint('phantom', __name__)
 

@@ -1,14 +1,13 @@
 #-*- coding: utf-8 -*-
+from datetime import datetime
+from math import floor
 import os
 import re
-import config
 
 from app import db
 from app import lib
+import config
 from sqlalchemy.orm import validates
-
-from math import floor
-from datetime import datetime
 
 EMAIL_REGEX = re.compile(r'[^@]+@[^@]+\.[^@]+')
 

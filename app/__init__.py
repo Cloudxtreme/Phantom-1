@@ -1,12 +1,13 @@
 #-*- coding: utf-8 -*-
-from flask import Flask, render_template
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager, AnonymousUserMixin, login_user, logout_user, login_required, current_user
-from flask.ext.script import Manager, Server
-from flask.ext.migrate import Migrate, MigrateCommand
-from flask_wtf.csrf import CsrfProtect
-from celery import Celery
 from functools import wraps
+
+from celery import Celery
+from flask import Flask, render_template
+from flask.ext.login import LoginManager, AnonymousUserMixin, login_user, logout_user, login_required, current_user
+from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.script import Manager, Server
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CsrfProtect
 
 # flask app
 app = Flask(__name__)

@@ -1,14 +1,14 @@
 #-*- coding: utf-8 -*-
 import os
-import config
 
 from app import lib
-from .models import User, Storage
-
+import config
 from flask_wtf import Form
 from wtforms import TextField, PasswordField, IntegerField, SelectField
-from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms import validators as v
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
+
+from .models import User, Storage
 
 class LoginForm(Form):
     email = TextField('email', validators=[ v.Email(), v.DataRequired() ])

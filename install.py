@@ -2,8 +2,8 @@
 '''
 Phantom install script (No dependency)
 '''
-import sys
 import os
+import sys
 
 PYTHON_VERSION = sys.version_info
 def check_env():

@@ -1,7 +1,8 @@
 #-*- coding: utf-8 -*-
-import os
-from celery.schedules import crontab
 from datetime import timedelta
+import os
+
+from celery.schedules import crontab
 
 _basedir = os.path.abspath(os.path.dirname(__file__))
 

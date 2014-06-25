@@ -1,7 +1,9 @@
 #-*- coding: utf-8 -*-
 from datetime import datetime
+
 from app import celery
 from app import db
+
 from .models import Task, TaskResult
 
 @celery.task(name='tasks.phantom')

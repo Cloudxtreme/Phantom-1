@@ -1,15 +1,14 @@
 #-*- coding: utf-8 -*-
-import os
-import shortuuid
-import md5 as md5module
-import random
-import config
-
-from json import dumps
-from struct import unpack
 from datetime import datetime, timedelta
+from json import dumps
+import os
+import random
+from struct import unpack
 
+import config
 from flaskext.bcrypt import Bcrypt
+import md5 as md5module
+import shortuuid
 
 bcrypt = Bcrypt()
 shortuuid.set_alphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
