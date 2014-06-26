@@ -10,7 +10,7 @@ DEBUG = True
 SECRET_KEY = 'SecretKeyForSessionSigning'
 
 if DEBUG is True:
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://phantom:phantom@localhost/phantom'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://phantom:@localhost/phantom'
 else:
     SQLALCHEMY_DATABASE_URI = ''
 DATABASE_CONNECT_OPTIONS = {}

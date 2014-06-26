@@ -6,7 +6,7 @@ import random
 from struct import unpack
 
 import config
-from flaskext.bcrypt import Bcrypt
+from flask.ext.bcrypt import Bcrypt
 import md5 as md5module
 import shortuuid
 
